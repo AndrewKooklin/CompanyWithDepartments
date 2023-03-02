@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\repos\CompanyWithDepartments\App.xaml
-11151548125
+3-1754792388
 
-5-2017746502
+221169996039
 20180193122
-MainWindow.xaml;
+ConsultantWindow.xaml;MainWindow.xaml;ManagerWindow.xaml;
 
 False
 

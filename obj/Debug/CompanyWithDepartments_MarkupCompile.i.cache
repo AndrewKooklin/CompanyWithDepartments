@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\repos\CompanyWithDepartments\CompanyWithDepartments\obj\Debug\
+C:\repos\CompanyWithDepartments\obj\Debug\
 CompanyWithDepartments
 none
 false
 DEBUG;TRACE
-C:\repos\CompanyWithDepartments\CompanyWithDepartments\App.xaml
-11151548125
+C:\repos\CompanyWithDepartments\App.xaml
+3-1754792388
 
-61434861427
-20228233059
-MainWindow.xaml;
+23327636672
+20180193122
+ConsultantWindow.xaml;MainWindow.xaml;ManagerWindow.xaml;
 
-True
+False
 

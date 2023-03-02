@@ -5,8 +5,128 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CompanyWithDepartments"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="Company"
+        Height="260" 
+        Width="350" 
+        FontSize="14"
+        Background="#FFCCF6EE"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <Style x:Key="LabelStyle">
+            <Setter Property="Control.Foreground" Value="#FF0F10A0" />
+            <Setter Property="Control.FontFamily" Value="Verdana" />
+            <Setter Property="Control.FontSize" Value="14" />
+            <Setter Property="Control.FontWeight" Value="Medium" />
+            <Setter Property="Control.Padding" Value="0 10 0 10" />
+            <Setter Property="Control.HorizontalContentAlignment" Value="Center" />
+            <Setter Property="Control.VerticalContentAlignment" Value="Center" />
+        </Style>
+        <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="Height" Value="46" />
+            <Setter Property="Control.BorderBrush" Value="#FF0C097A" />
+            <Setter Property="Control.Background" Value="#FF007ACC"/>
+            <Setter Property="Control.Foreground" Value="#FFFFFF" />
+            <Setter Property="Control.FontFamily" Value="Verdana" />
+            <Setter Property="Control.FontSize" Value="15" />
+            <Setter Property="Control.FontWeight" Value="Medium" />
+            <Setter Property="Control.Padding" Value="5" />
+            <Setter Property="Control.Margin" Value="5" />
+            <Setter Property="Control.Cursor" Value="Hand" />
+            <Setter Property="Control.HorizontalContentAlignment" Value="Center" />
+            <Setter Property="Control.VerticalContentAlignment" Value="Center" />
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border CornerRadius="6" Background="{TemplateBinding Background}">
+                            <Grid>
+                                <ContentPresenter x:Name="MyContentPresenter" Content="{TemplateBinding Content}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15px"/>
+                            </Grid>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Height" Value="46" />
+                                <Setter Property="Control.Background" Value="#008423"/>
+                                <Setter Property="Control.Foreground" Value="#FFFFFF" />
+                            </Trigger>
+
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="BorderBrush" Value="#FF007ACC" />
+                                <Setter Property="Background" Value="#ffa4a4" />
+                                <Setter Property="Foreground" Value="#010982" />
+                            </Trigger>
+
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="BorderBrush" Value="#FF007ACC" />
+                                <Setter Property="Background" Value="#c1c1c1" />
+                                <Setter Property="Foreground" Value="#010982" />
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ComboBoxStyle">
+            <Setter Property="Control.FontSize" Value="15" />
+            <Setter Property="Control.Height" Value="30" />
+            <Setter Property="Control.Foreground" Value="#FF2030E0" />
+            <Setter Property="Control.HorizontalContentAlignment" Value="Center" />
+            <Setter Property="Control.VerticalContentAlignment" Value="Center" />
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="#FFD1F0F7">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1.5*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel>
+            <Label Content="Пользователь" 
+                   Style="{StaticResource LabelStyle}"/>
+            <ComboBox x:Name="SelectPosition" 
+                      HorizontalAlignment="Center" 
+                      VerticalAlignment="Top" 
+                      Width="130" 
+                      Height="30" 
+                      BorderBrush="#FF1A0874"  
+                      SelectionChanged="OnSelectedChanged">
+                <ComboBox.Background>
+                    <LinearGradientBrush EndPoint="0,1" 
+                                         StartPoint="0,0">
+                        <GradientStop Color="#FFF0F0F0" 
+                                      Offset="0"/>
+                        <GradientStop Color="#FF8BF9F3" 
+                                      Offset="1"/>
+                    </LinearGradientBrush>
+                </ComboBox.Background>
+                <ComboBoxItem x:Name="Manager" 
+                              Content="Менеджер" 
+                              Style="{StaticResource ComboBoxStyle}">
+                </ComboBoxItem>
+                <ComboBoxItem x:Name="Consultant" 
+                              Content="Консультант" 
+                              Style="{StaticResource ComboBoxStyle}">
+                </ComboBoxItem>
+            </ComboBox>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1"  
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center">
+            <Button x:Name="BtnExit" 
+                    Content="Выйти" 
+                    Width="80" 
+                    Margin="200,15,10,15"
+                    Style="{StaticResource ButtonStyle}"
+                    Click="OnClickExit"/>
+        </StackPanel>
+
     </Grid>
 </Window>
