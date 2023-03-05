@@ -30,13 +30,13 @@ namespace CompanyWithDepartments
                             this.Close();
                             break;
                         }
-                    //case "Consultant":
-                    //    {
-                    //        ConsultantWindow consultantWindow = new ConsultantWindow();
-                    //        consultantWindow.Show();
-                    //        this.Close();
-                    //        break;
-                    //    }
+                    case "Consultant":
+                        {
+                            ConsultantWindow consultantWindow = new ConsultantWindow();
+                            consultantWindow.Show();
+                            this.Close();
+                            break;
+                        }
                     default:
                         {
                             MessageBox.Show("Выберите должность", "Ошибка", MessageBoxButton.OK);

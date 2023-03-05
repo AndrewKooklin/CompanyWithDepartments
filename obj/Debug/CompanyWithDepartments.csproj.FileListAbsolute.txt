@@ -57,3 +57,4 @@ C:\repos\CompanyWithDepartments\obj\Debug\CompanyWithDepartments.pdb
 C:\repos\CompanyWithDepartments\obj\Debug\ManagerWindow.g.cs
 C:\repos\CompanyWithDepartments\obj\Debug\ConsultantWindow.baml
 C:\repos\CompanyWithDepartments\obj\Debug\ManagerWindow.baml
+C:\repos\CompanyWithDepartments\obj\Debug\ConsultantWindow.g.cs

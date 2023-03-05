@@ -302,18 +302,13 @@
 
         <StackPanel Grid.Row="5" 
                     Grid.Column="0" 
-                    Margin="156,10,5.2,5.4"
+                    Margin="300,10,5.2,5.4"
                     Orientation="Horizontal">
             <Button x:Name="SaveToListObjects" 
                     Content="Изменить" 
                     Margin="0,5,10,5"
                     Style="{StaticResource ButtonStyle}"
-                    Click="OnClickChange"/>
-            <Button x:Name="AddClient" 
-                    Content="Добавить клиента" 
-                    Margin="10,5,10,5" 
-                    Style="{StaticResource ButtonStyle}"
-                    Click="OnClickAddClient"/>
+                    Click="OnClickChangePhone"/>
             <Button x:Name="SaveToFile" 
                     Content="Сохранить в файл"
                     Margin="10,5,10,5" 
@@ -327,7 +322,7 @@
                     HorizontalAlignment="Center" Margin="23.8,10,24,0.4">
             <Button x:Name="BtnExit" 
                     Content="Выйти" 
-                    Margin="450,5,15,5"
+                    Margin="430,5,10,5"
                     Style="{StaticResource ButtonStyle}"
                     Click="OnClickExit"/>
         </StackPanel>
