@@ -12,12 +12,12 @@ namespace CompanyWithDepartments
         /// <summary>
         /// Создание дерева хранения записей
         /// </summary>
-        public TreeJsonChanges(ObservableCollection<Change> dataChangeList)
+        public TreeJsonChanges(List<Change> dataChangeList)
         {
-            DataChangeList = new ObservableCollection<Change>();
+            DataChangeList = new List<Change>();
             DataChangeList = dataChangeList;
         }
 
-        public ObservableCollection<Change> DataChangeList { get; set; }
+        public List<Change> DataChangeList { get; set; }
     }
 }

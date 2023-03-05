@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CompanyWithDepartments"
         mc:Ignorable="d"
-        Title="Company (Consultant)" 
-        Height="500" 
+        Title="CompanyWithDepartments (Consultant)" 
+        Height="600" 
         Width="1190" 
         FontSize="14"
         Background="#FFCCF6EE"
@@ -14,30 +14,31 @@
 
     <Window.Resources>
         <Style x:Key="LabelStyle">
+            <Setter Property="Control.BorderThickness" Value="1 1 1 1"/>
             <Setter Property="Control.BorderBrush" Value="#FF0C097A" />
             <Setter Property="Control.Background" Value="#FFC8D8FF" />
             <Setter Property="Control.Foreground" Value="#FF0F10A0" />
+            <Setter Property="Control.Height" Value="40" />
             <Setter Property="Control.FontFamily" Value="Verdana" />
-            <Setter Property="Control.FontSize" Value="14" />
+            <Setter Property="Control.FontSize" Value="12" />
             <Setter Property="Control.FontWeight" Value="Medium" />
             <Setter Property="Control.HorizontalContentAlignment" Value="Center" />
             <Setter Property="Control.VerticalContentAlignment" Value="Center" />
         </Style>
         <Style x:Key="TextBlockStyle">
-            <Setter Property="Control.Width" Value="110" />
             <Setter Property="Control.Margin" Value="0" />
-            <Setter Property="Control.Padding" Value="10 2 0 2" />
+            <Setter Property="Control.Padding" Value="5" />
         </Style>
         <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
-            <Setter Property="Height" Value="46" />
             <Setter Property="Control.BorderBrush" Value="#FF0C097A" />
             <Setter Property="Control.Background" Value="#FF007ACC"/>
             <Setter Property="Control.Foreground" Value="#FFFFFF" />
             <Setter Property="Control.FontFamily" Value="Verdana" />
-            <Setter Property="Control.FontSize" Value="14" />
+            <Setter Property="Control.FontSize" Value="12" />
             <Setter Property="Control.FontWeight" Value="Medium" />
-            <Setter Property="Control.Padding" Value="5" />
-            <Setter Property="Control.Margin" Value="5" />
+            <Setter Property="Control.Width" Value="auto" />
+            <Setter Property="Control.Height" Value="45" />
+            <Setter Property="Control.Padding" Value="0" />
             <Setter Property="Control.Cursor" Value="Hand" />
             <Setter Property="Control.HorizontalContentAlignment" Value="Center" />
             <Setter Property="Control.VerticalContentAlignment" Value="Center" />
@@ -53,7 +54,6 @@
 
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Height" Value="46" />
                                 <Setter Property="Control.Background" Value="#008423"/>
                                 <Setter Property="Control.Foreground" Value="#FFFFFF" />
                             </Trigger>
@@ -93,10 +93,12 @@
 
     <Grid Background="#FFD1F0F7">
         <Grid.RowDefinitions>
+            <RowDefinition Height="40*"/>
             <RowDefinition Height="30*"/>
             <RowDefinition Height="132*"/>
             <RowDefinition Height="20*"/>
-            <RowDefinition Height="70*"/>
+            <RowDefinition Height="30*"/>
+            <RowDefinition Height="40*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10*"></ColumnDefinition>
@@ -104,78 +106,75 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Row="0" 
+                    Grid.Column="0"
+                    Orientation="Horizontal" 
+                    Margin="10,5,0.2,0.2">
+            <ComboBox 
+                x:Name="cbDepartment" 
+                Margin="0 10 10 10"
+                Width="140"
+                Height="25"
+                SelectionChanged="CbDepartment_SelectionChanged">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding NameDepartment}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Label Grid.Row="0"
+                   Content="Выбор департамента"  
+                   Margin="5 20 10 15" 
+                   Width="180"
+                   FontFamily="Verdana"
+                   FontSize="14"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" 
                     Grid.Column="0" 
                     Orientation="Horizontal" 
-                    Margin="10 5 0 0">
-            <Border BorderThickness="1,0,0,1" 
-                    BorderBrush="#FF051374">
-                <Label  Content="Фамилия" 
+                    Margin="10,10,0.2,0.2">
+            <Label  Content="Фамилия" 
+                        Width="111"
+                        Style="{StaticResource LabelStyle}"/>
+            <Label  Content="Имя" 
                         Width="111" 
                         Style="{StaticResource LabelStyle}"/>
-            </Border>
-            <Border BorderThickness="1,0,0,1" 
-                    BorderBrush="#FF051374">
-                <Label  Content="Имя" 
-                        Width="111" 
-                        Style="{StaticResource LabelStyle}"/>
-            </Border>
-            <Border BorderThickness="1,0,0,1" 
-                    BorderBrush="#FF051374">
-                <Label  Content="Отчество" 
+            <Label  Content="Отчество" 
                         Width="112" 
                         Style="{StaticResource LabelStyle}"/>
-            </Border>
-            <Border BorderThickness="1,0,0,1" 
-                    BorderBrush="#FF051374">
-                <Label  Content="Телефон" 
-                        Width="112" 
+            <Label  Content="Телефон" 
+                        Width="109" 
                         Style="{StaticResource LabelStyle}"/>
-            </Border>
-            <Border BorderThickness="1,0,1,1" 
-                    BorderBrush="#FF051374">
-                <Label  Content="Паспорт" 
-                        Width="112" 
+            <Label  Content="Паспорт" 
+                        Width="123"
                         Style="{StaticResource LabelStyle}"/>
-            </Border>
         </StackPanel>
 
-        <StackPanel Grid.Row="0" 
+        <StackPanel Grid.Row="1" 
                     Grid.Column="1" 
                     Orientation="Horizontal" 
-                    Margin="15 5 0 0">
-            <Border BorderThickness="1,0,0,1" 
-                    BorderBrush="#FF051374">
-                <Label  Content="Дата и время"  
-                        Width="152" 
+                    Margin="15,10,0.2,0.2">
+            <Label  Content="Дата и время"  
+                        Width="132" 
                         Style="{StaticResource LabelStyle}"/>
-            </Border>
-            <Border BorderThickness="1,0,0,1" 
-                    BorderBrush="#FF051374">
-                <Label  Content="Данные" 
-                        Width="120" 
+            <Label  Content="Данные" 
+                        Width="130" 
                         Style="{StaticResource LabelStyle}"/>
-            </Border>
-            <Border BorderThickness="1,0,0,1" 
-                    BorderBrush="#FF051374">
-                <Label  Content="Тип изменений" 
-                        Width="140" 
+            <Label  Content="Тип изменений" 
+                        Width="155" 
                         Style="{StaticResource LabelStyle}"/>
-            </Border>
-            <Border BorderThickness="1,0,1,1" 
-                    BorderBrush="#FF051374">
-                <Label Content="Должность" 
-                        Width="120" 
+            <Label Content="Должность" 
+                        Width="123" 
                         Style="{StaticResource LabelStyle}"/>
-            </Border>
         </StackPanel>
 
-        <ScrollViewer Grid.Row="1" 
-                      Grid.Column="0" 
+        <ScrollViewer Grid.Row="2" 
+                      Grid.Column="0"
                       Margin="0" 
                       VerticalScrollBarVisibility="Auto" 
                       HorizontalAlignment="Left">
             <StackPanel x:Name="myPanel" 
-                        Grid.Row="1" 
+                        Grid.Row="2" 
                         Grid.Column="0" 
                         Margin="10 0 0 0" 
                         HorizontalAlignment="Left" 
@@ -195,19 +194,24 @@
                                     Margin="0">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock x:Name="LastName" 
-                                               Text="{Binding LastName}" 
+                                               Text="{Binding LastName}"
+                                               Width="111"
                                                Style="{StaticResource TextBlockStyle}"/>
                                     <TextBlock x:Name="FirstName" 
-                                               Text="{Binding FirstName}" 
+                                               Text="{Binding FirstName}"
+                                               Width="111"
                                                Style="{StaticResource TextBlockStyle}"/>
                                     <TextBlock x:Name="FathersName" 
                                                Text="{Binding FathersName}"
+                                               Width="112"
                                                Style="{StaticResource TextBlockStyle}"/>
                                     <TextBlock x:Name="Phone" 
-                                               Text="{Binding Phone}" 
+                                               Text="{Binding Phone}"
+                                               Width="109"
                                                Style="{StaticResource TextBlockStyle}"/>
                                     <TextBlock x:Name="PassportNumber" 
-                                               Text="{Binding PassportNumber}" 
+                                               Text="{Binding PassportNumber}"
+                                               Width="108"
                                                Style="{StaticResource TextBlockStyle}"/>
                                 </StackPanel>
                             </Border>
@@ -217,15 +221,14 @@
             </StackPanel>
         </ScrollViewer>
 
-        <ScrollViewer Grid.Row="1" 
-                      Grid.Column="1" 
-                      Margin="15 0 0 0" 
+        <ScrollViewer Grid.Row="2" 
+                      Grid.Column="1"
                       VerticalScrollBarVisibility="Auto" 
                       HorizontalAlignment="Left">
             <StackPanel x:Name="myPanel2" 
-                        Grid.Row="1" 
+                        Grid.Row="2" 
                         Grid.Column="1" 
-                        Margin="0" 
+                        Margin="15 0 0 0" 
                         HorizontalAlignment="Left" 
                         VerticalAlignment="Top">
                 <ListBox x:Name="recordItems"
@@ -244,23 +247,23 @@
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock x:Name="DataTime" 
                                                Text="{Binding DateAndTime, StringFormat={}{0:dd.MM.yyyy H:mm:ss}}" 
-                                               Width="150" 
+                                               Width="132" 
                                                Margin="0" 
                                                TextAlignment="Center"/>
                                     <TextBlock x:Name="Data" 
                                                Text="{Binding FieldsChanged}" 
-                                               Width="120" 
+                                               Width="130" 
                                                Margin="0" 
                                                TextAlignment="Center" 
                                                TextWrapping="Wrap"/>
                                     <TextBlock x:Name="Type" 
                                                Text="{Binding Type}" 
-                                               Width="140" 
+                                               Width="155" 
                                                Margin="0" 
                                                TextAlignment="Center"/>
                                     <TextBlock x:Name="Position" 
                                                Text="{Binding Position}" 
-                                               Width="115" 
+                                               Width="123" 
                                                Margin="0" 
                                                TextAlignment="Center"/>
                                 </StackPanel>
@@ -271,70 +274,64 @@
             </StackPanel>
         </ScrollViewer>
 
+        <Label 
+            Content="Поле для изменения телефона клиента" 
+            HorizontalAlignment="Left" 
+            Margin="250,8.4,0,0" 
+            Grid.Row="3" 
+            VerticalAlignment="Top" 
+            Width="312"
+            FontFamily="Verdana"
+            FontSize="14"/>
+
         <StackPanel x:Name="TextBoxList" 
-                    Grid.Row="2" 
+                    Grid.Row="4" 
                     Grid.Column="0" 
                     HorizontalAlignment="Left" 
-                    Height="25" 
+                    Height="35" 
                     Margin="10 5 0 5" 
                     VerticalAlignment="Top" 
                     Orientation="Horizontal">
-            <TextBox x:Name="lastName" 
-                     Text="Фамилия" 
-                     Visibility="Hidden"
-                     Style="{StaticResource TextBoxStyle}"/>
-            <TextBox x:Name="firstName" 
-                     Text="Имя"
-                     Visibility="Hidden"
-                     Style="{StaticResource TextBoxStyle}"/>
-            <TextBox x:Name="fathersName" 
-                     Text="Отчество"
-                     Visibility="Hidden"
-                     Style="{StaticResource TextBoxStyle}"/>
             <TextBox x:Name="phone" 
                      Text="Телефон"
+                     Margin="330 5 5 5"
                      Style="{StaticResource TextBoxStyle}" 
                      TextChanged="OnPhoneChanged" 
                      GotFocus="OnFocusPhone"/>
-            <TextBox x:Name="passportNumber" 
-                     Text="Паспорт"
-                     Visibility="Hidden"
-                     Style="{StaticResource TextBoxStyle}"/>
         </StackPanel>
-        <StackPanel Grid.Row="3" 
+
+        <StackPanel Grid.Row="5" 
                     Grid.Column="0" 
-                    Margin="285,5,10,20" 
+                    Margin="156,10,5.2,5.4"
                     Orientation="Horizontal">
             <Button x:Name="SaveToListObjects" 
                     Content="Изменить" 
                     Margin="0,5,10,5"
                     Style="{StaticResource ButtonStyle}"
-                    Click="OnClickChangePhone"/>
+                    Click="OnClickChange"/>
+            <Button x:Name="AddClient" 
+                    Content="Добавить клиента" 
+                    Margin="10,5,10,5" 
+                    Style="{StaticResource ButtonStyle}"
+                    Click="OnClickAddClient"/>
             <Button x:Name="SaveToFile" 
                     Content="Сохранить в файл"
                     Margin="10,5,10,5" 
                     Style="{StaticResource ButtonStyle}" 
                     Click="OnClickSaveToFiles"/>
         </StackPanel>
-        <StackPanel Grid.Row="3" 
+
+        <StackPanel Grid.Row="5" 
                     Grid.Column="1"
                     Orientation="Horizontal"
-                    HorizontalAlignment="Center">
+                    HorizontalAlignment="Center" Margin="23.8,10,24,0.4">
             <Button x:Name="BtnExit" 
                     Content="Выйти" 
-                    Margin="450,15,10,15"
+                    Margin="450,5,15,5"
                     Style="{StaticResource ButtonStyle}"
                     Click="OnClickExit"/>
         </StackPanel>
-        <Label 
-            Content="Поле для изменения телефона" 
-            HorizontalAlignment="Left" 
-            Margin="304,217,0,0" 
-            Grid.Row="1" 
-            VerticalAlignment="Top" 
-            Width="266"
-            FontFamily="Verdana"
-            FontSize="14"/>
+
 
     </Grid>
 </Window>

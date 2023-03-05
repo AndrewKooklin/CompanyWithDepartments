@@ -8,15 +8,15 @@ using System.Windows;
 
 namespace CompanyWithDepartments
 {
-    public class ClientsRepository
+    public class DepartmentsRepository
     {
         private Window w;
-        public ObservableCollection<Client> ClientsList { get; set; }
+        public List<Department> Departments { get; set; }
 
-        public ClientsRepository(Window W)
+        public DepartmentsRepository(Window W)
         {
             this.w = W;
-            this.ClientsList = new ObservableCollection<Client>();
+            this.Departments = new List<Department>();
         }
     }
 }

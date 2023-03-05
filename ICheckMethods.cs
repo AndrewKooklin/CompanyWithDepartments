@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace CompanyWithDepartments
 {
@@ -23,18 +24,18 @@ namespace CompanyWithDepartments
         /// <summary>
         /// Проверка на наличие измененного телефона выбранного клиента в базе
         /// </summary>
-        bool CheckPhoneExistInBase(ObservableCollection<Client> clients, Client client, long phoneNumber);
+        bool CheckPhoneExistInBase(List<Client> clients, Client client, long phoneNumber);
         /// <summary>
         /// Проверка на наличие введенного телефона в базе
         /// </summary>
-        bool CheckPhoneExistInBase(ObservableCollection<Client> clients, long phoneNumber);
+        bool CheckPhoneExistInBase(List<Client> clients, long phoneNumber);
         /// <summary>
         /// Проверка на наличие измененного паспорта выбранного клиента в базе
         /// </summary>
-        bool CheckPassportExistInBase(ObservableCollection<Client> clients, Client client, string passportNumberText);
+        bool CheckPassportExistInBase(List<Client> clients, Client client, string passportNumberText);
         /// <summary>
         /// Проверка на наличие введенного паспорта в базе
         /// </summary>
-        bool CheckPassportExistInBase(ObservableCollection<Client> clients, string passportNumberText);
+        bool CheckPassportExistInBase(List<Client> clients, string passportNumberText);
      }
 }

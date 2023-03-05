@@ -14,14 +14,12 @@ namespace CompanyWithDepartments
     /// </summary>
     public partial class ManagerWindow : Window
     {
-        public ClientsRepository clientsRepository;
+        public DepartmentsRepository departmentRepository;
         public ChangesRepository changesRepository;
 
+        Department newDepartment;
         Manager newManager = new Manager();
         Client client;
-        List<string> textList = new List<string>();
-        string rootClients;
-        string rootChanges;
         public int index;
         public Employee.Position position;
 
@@ -34,13 +32,14 @@ namespace CompanyWithDepartments
 
             position = Employee.Position.Manager;
 
-            clientsRepository = new ClientsRepository(this);
+            departmentRepository = new DepartmentsRepository(this);
             changesRepository = new ChangesRepository(this);
 
-            clientsRepository.ClientsList = newManager.GetClietsItemSourse(position);
-            if (clientsRepository.ClientsList != null)
+            departmentRepository.Departments = newManager.GetDepartmentsItemSourse(position);
+            if (departmentRepository.Departments != null)
             {
-                clientItems.ItemsSource = clientsRepository.ClientsList;
+                cbDepartment.ItemsSource = departmentRepository.Departments;
+                
 
                 changesRepository.ChangesList = newManager.GetChangesItemSourse();
                 if (changesRepository.ChangesList != null)
@@ -54,8 +53,12 @@ namespace CompanyWithDepartments
             }
             else
             {
-                clientsRepository.ClientsList = new ObservableCollection<Client>();
-                MessageBox.Show("Файл пока пустой. Добавьте клиента и сохраните.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                departmentRepository.Departments = new List<Department>();
+                MessageBox.Show("Файл департаментов пока пустой." +
+                                "\n Добавьте департамент и сохраните.", 
+                                "Ошибка", 
+                                MessageBoxButton.OK, 
+                                MessageBoxImage.Error);
                 return;
             }
         }
@@ -130,14 +133,34 @@ namespace CompanyWithDepartments
         /// </summary>
         private void OnClickChange(object sender, RoutedEventArgs e)
         {
-            if (clientItems.SelectedItem != null)
+            if(cbDepartment.SelectedItem == null)
             {
-                index = clientItems.SelectedIndex;
+                MessageBox.Show("Выберите департамент",
+                                "Ошибка",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Error);
+                return;
+            }
 
-                var client = clientsRepository.ClientsList.ElementAt(index);
+            if(clientItems.SelectedItem == null)
+            {
+                MessageBox.Show("Выберите клиента", 
+                                "Ошибка", 
+                                MessageBoxButton.OK, 
+                                MessageBoxImage.Error);
+                return;
+            }
+            else if (clientItems.SelectedItem != null)
+            {
+                var indexDepartment = cbDepartment.SelectedIndex;
+                var indexClient = clientItems.SelectedIndex;
+
+                var clientsList = departmentRepository.Departments[indexDepartment].Clients;
+                var client = departmentRepository.Departments[indexDepartment].Clients[indexClient];
 
                 if (newManager.CheckTextBoxIsNullOrEmpty(firstName.Text, "Имя")) return;
                 if (newManager.CheckTextBoxIsNullOrEmpty(lastName.Text, "Фамилия")) return;
+                if (newManager.CheckTextBoxIsNullOrEmpty(fathersName.Text, "Отчество")) return;
                 if (newManager.CheckTextBoxIsNullOrEmpty(phone.Text, "Телефон")) return;
                 if (newManager.CheckTextBoxIsNullOrEmpty(passportNumber.Text, "Номер паспорта")) return;
 
@@ -147,15 +170,15 @@ namespace CompanyWithDepartments
                     if (!newManager.CheckPhoneMatchesPattern(phone.Text)) return;
                     if (!newManager.CheckPassportMatchesPattern(passportNumber.Text)) return;
 
-                    if (newManager.CheckPhoneExistInBase(clientsRepository.ClientsList, client, phoneNumber)) return;
-                    if (newManager.CheckPassportExistInBase(clientsRepository.ClientsList, client, passportNumber.Text)) return;
+                    if (newManager.CheckPhoneExistInBase(clientsList, client, phoneNumber)) return;
+                    if (newManager.CheckPassportExistInBase(clientsList, client, passportNumber.Text)) return;
                 }
                 else
                 {
                     return;
                 }
 
-                textList = new List<string>() { lastName.Text, firstName.Text,
+                var textList = new List<string>() { lastName.Text, firstName.Text,
                                                 fathersName.Text, phone.Text, passportNumber.Text };
 
                 var fieldsList = FieldsChanged(textList, client);
@@ -163,13 +186,13 @@ namespace CompanyWithDepartments
                 {
                     var newRecordChange = newManager.NewRecord(fieldsList, Change.DataChange.ChangingRecord, position);
                     changesRepository.ChangesList.Add(newRecordChange);
-                    clientsRepository.ClientsList.RemoveAt(index);
+                    departmentRepository.Departments[indexDepartment].Clients.RemoveAt(indexClient);
                     client.FirstName = firstName.Text.Trim();
                     client.LastName = lastName.Text.Trim();
                     client.FathersName = fathersName.Text.Trim();
                     client.Phone = phoneNumber;
                     client.PassportNumber = passportNumber.Text.Trim();
-                    clientsRepository.ClientsList.Insert(index, client);
+                    departmentRepository.Departments[indexDepartment].Clients.Insert(indexClient, client);
                 }
                 else
                 {
@@ -178,12 +201,8 @@ namespace CompanyWithDepartments
                 clientItems.ItemsSource = null;
                 recordItems.ItemsSource = null;
 
-                clientItems.ItemsSource = clientsRepository.ClientsList;
+                clientItems.ItemsSource = departmentRepository.Departments[indexDepartment].Clients;
                 recordItems.ItemsSource = changesRepository.ChangesList;
-            }
-            else
-            {
-                MessageBox.Show("Выберите клиента", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -192,8 +211,25 @@ namespace CompanyWithDepartments
         /// </summary>
         private void OnClickAddClient(object sender, RoutedEventArgs e)
         {
+            if(cbDepartment.SelectedItem == null)
+            {
+                MessageBox.Show("Выберите департамент", 
+                                 "Ошибка", 
+                                 MessageBoxButton.OK, 
+                                 MessageBoxImage.Error);
+                return;
+            }
+
+            var selectedItem = (Department)cbDepartment.SelectedItem;
+            string value = selectedItem.NameDepartment;
+
+            
+
+            newDepartment = departmentRepository.Departments.Single(p => p.NameDepartment.Equals(value));
+
             if (newManager.CheckTextBoxIsNullOrEmpty(firstName.Text, "Имя")) return;
             if (newManager.CheckTextBoxIsNullOrEmpty(lastName.Text, "Фамилия")) return;
+            if (newManager.CheckTextBoxIsNullOrEmpty(fathersName.Text, "Отчество")) return;
             if (newManager.CheckTextBoxIsNullOrEmpty(phone.Text, "Телефон")) return;
             if (newManager.CheckTextBoxIsNullOrEmpty(passportNumber.Text,
                 "Паспорт\" в формате \"1234-567890")) return;
@@ -204,31 +240,42 @@ namespace CompanyWithDepartments
                 if (!newManager.CheckPhoneMatchesPattern(phone.Text)) return;
                 if (!newManager.CheckPassportMatchesPattern(passportNumber.Text)) return;
 
-                if (newManager.CheckPhoneExistInBase(clientsRepository.ClientsList, phoneNumber)) return;
-                if (newManager.CheckPassportExistInBase(clientsRepository.ClientsList, passportNumber.Text)) return;
+                if (newManager.CheckPhoneExistInBase(newDepartment.Clients, phoneNumber)) return;
+                if (newManager.CheckPassportExistInBase(newDepartment.Clients, passportNumber.Text)) return;
             }
             else
             {
                 return;
             }
 
-            
+
 
             var newClient = newManager.AddClient(firstName.Text.Trim(),
                            lastName.Text.Trim(), fathersName.Text.Trim(),
                            phoneNumber, passportNumber.Text.Trim());
-            clientsRepository.ClientsList.Add(newClient);
+
+            if(newDepartment.Clients == null)
+            {
+                newDepartment = new Department(value, new List<Client>());
+            }
+
+            newDepartment.Clients.Add(newClient);
+
+            departmentRepository.Departments[cbDepartment.SelectedIndex].Clients = newDepartment.Clients;
 
             clientItems.ItemsSource = null;
             recordItems.ItemsSource = null;
 
             var fieldsAdded = CheckFieldsAdded();
-            var newRecordAddClient = newManager.NewRecord(fieldsAdded, Change.DataChange.AddNewClient, position);
+            var newRecordAddClient = newManager.NewRecord(fieldsAdded, 
+                                                          Change.DataChange.AddNewClient, 
+                                                          position);
             changesRepository.ChangesList.Add(newRecordAddClient);
 
-            clientItems.ItemsSource = clientsRepository.ClientsList;
+            clientItems.ItemsSource = newDepartment.Clients;
             recordItems.ItemsSource = changesRepository.ChangesList;
         }
+
         /// <summary>
         /// Проверка какие поля TextBox были изменены
         /// </summary>
@@ -277,27 +324,43 @@ namespace CompanyWithDepartments
         /// </summary>
         private void OnClickSaveToFiles(object sender, RoutedEventArgs e)
         {
-            if (clientsRepository.ClientsList.Count <= 0)
+            string rootChanges = "";
+
+            string rootDepartments = "";
+
+            if (departmentRepository.Departments.Count <= 0)
             {
-                MessageBox.Show("Список клиентов пока пустой", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Список департаментов пока пустой", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             else
             {
-                rootClients = newManager.ConvertToJsonClients(clientsRepository.ClientsList);
+                rootDepartments = newManager.ConvertToJsonDepartment(departmentRepository.Departments);
             }
             if (changesRepository.ChangesList.Count > 0)
             {
                 rootChanges = newManager.ConvertToJsonChanges(changesRepository.ChangesList);
             }
 
-            newManager.WriteToFile(rootClients, newManager.fileNameClients);
+            newManager.WriteToFile(rootDepartments, newManager.fileNameDepartments);
             newManager.WriteToFile(rootChanges, newManager.fileNameChanges);
 
             MessageBox.Show("Файл сохранен", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Information);
         }
+
         /// <summary>
-        /// Очистка поля TextBox LastName при получении фокуса элементом
+        /// Очистка поля TextBox "NameDepartment" при получении фокуса элементом
+        /// </summary>
+        private void OnFocustbNameDepartment(object sender, RoutedEventArgs e)
+        {
+            if (nameDepartment.Text == "Имя департамента")
+            {
+                nameDepartment.Text = "";
+            }
+        }
+
+        /// <summary>
+        /// Очистка поля TextBox "LastName" при получении фокуса элементом
         /// </summary>
         private void OnFocusLastName(object sender, RoutedEventArgs e)
         {
@@ -307,7 +370,7 @@ namespace CompanyWithDepartments
             }
         }
         /// <summary>
-        /// Очистка поля TextBox FirstName при получении фокуса элементом
+        /// Очистка поля TextBox "FirstName" при получении фокуса элементом
         /// </summary>
         private void OnFocusFirstName(object sender, RoutedEventArgs e)
         {
@@ -317,7 +380,7 @@ namespace CompanyWithDepartments
             }
         }
         /// <summary>
-        /// Очистка поля TextBox FathersName при получении фокуса элементом
+        /// Очистка поля TextBox "FathersName" при получении фокуса элементом
         /// </summary>
         private void OnFocusFathersName(object sender, RoutedEventArgs e)
         {
@@ -327,7 +390,7 @@ namespace CompanyWithDepartments
             }
         }
         /// <summary>
-        /// Очистка поля TextBox Phone при получении фокуса элементом
+        /// Очистка поля TextBox "Phone" при получении фокуса элементом
         /// </summary>
         private void OnFocusPhone(object sender, RoutedEventArgs e)
         {
@@ -337,7 +400,7 @@ namespace CompanyWithDepartments
             }
         }
         /// <summary>
-        /// Очистка поля TextBox Phone при получении фокуса элементом
+        /// Очистка поля TextBox "PassportNumber" при получении фокуса элементом
         /// </summary>
         private void OnFocusPassportNumber(object sender, RoutedEventArgs e)
         {
@@ -346,12 +409,101 @@ namespace CompanyWithDepartments
                 passportNumber.Text = "";
             }
         }
+
         /// <summary>
         /// Действия при нажатии на кнопку "Выйти"
         /// </summary>
         private void OnClickExit(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        /// <summary>
+        /// Действия при выборе департамента
+        /// </summary>
+        private void CbDepartment_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cbDepartment.SelectedItem == null)
+            {
+                return;
+            }
+
+            var selectedItem = (Department)cbDepartment.SelectedItem;
+            string value = selectedItem.NameDepartment;
+
+            newDepartment = departmentRepository.Departments.Single(p => p.NameDepartment.Equals(value));
+
+            clientItems.ItemsSource = newDepartment.Clients;
+        }
+
+        /// <summary>
+        /// Действия при нажатии на кнопку "Добавить департамент"
+        /// </summary>
+        private void OnClickAddDepartment(object sender, RoutedEventArgs e)
+        {
+            if(nameDepartment.Text.Length <= 0 || nameDepartment.Text == "")
+            {
+                MessageBox.Show("Имя департамента не может быть пустой строкой.",
+                                "Ошибка",
+                                 MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            foreach(var departmentName in departmentRepository.Departments)
+            {
+                if(departmentName.NameDepartment.Equals(nameDepartment.Text))
+                {
+                    MessageBox.Show("Такой департамент уже есть в базе.",
+                                    "Ошибка", 
+                                    MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+            }
+
+            newDepartment = new Department(nameDepartment.Text);
+            departmentRepository.Departments.Add(newDepartment);
+            cbDepartment.ItemsSource = departmentRepository.Departments;
+            cbDepartment.Items.Refresh();
+            MessageBox.Show("Департамент добавлен в список.",
+                                    "Сообщение",
+                                    MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        /// <summary>
+        /// Действия при нажатии на кнопку "Удалить департамент"
+        /// </summary>
+        private void OnClickDeleteDepartment(object sender, RoutedEventArgs e)
+        {
+            if (cbDepartment.SelectedItem == null)
+            {
+                MessageBox.Show("Выберите департамент",
+                                 "Ошибка",
+                                 MessageBoxButton.OK,
+                                 MessageBoxImage.Error);
+                return;
+            }
+
+            var indexDepartment = cbDepartment.SelectedIndex;
+            string nameDepartment = departmentRepository.Departments[indexDepartment].NameDepartment;
+
+            MessageBoxResult messageBoxResult = MessageBox.Show($"Департамент \"{nameDepartment}\" и клиенты будут удалены",
+                                 "Предупреждение",
+                                 MessageBoxButton.OKCancel,
+                                 MessageBoxImage.Warning);
+            if (messageBoxResult == MessageBoxResult.Cancel)
+            {
+                return;
+            }
+
+            if (messageBoxResult == MessageBoxResult.OK) 
+            {
+                
+                departmentRepository.Departments.RemoveAt(indexDepartment);
+                clientItems.ItemsSource = null;
+                clientItems.Items.Refresh();
+                cbDepartment.Items.Refresh();
+            }
+            
         }
     }
 }

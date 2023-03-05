@@ -11,12 +11,12 @@ namespace CompanyWithDepartments
     public class ChangesRepository
     {
         private Window w;
-        public ObservableCollection<Change> ChangesList { get; set; }
+        public List<Change> ChangesList { get; set; }
 
         public ChangesRepository(Window W)
         {
             this.w = W;
-            this.ChangesList = new ObservableCollection<Change>();
+            this.ChangesList = new List<Change>();
         }
     }
 }

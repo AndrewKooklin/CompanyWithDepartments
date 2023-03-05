@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace CompanyWithDepartments
 {
-    public class Manager : Consultant, IManager,
-                          IGetRecordsFromBase, IWorkWithJson,
-                          IWorkWithFiles, ICheckMethods
+    public class Manager : Employee, IManager
     {
         public Manager()
         {

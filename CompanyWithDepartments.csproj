@@ -74,8 +74,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ClientList.cs" />
+    <Compile Include="ConsultantWindow.xaml.cs">
+      <DependentUpon>ConsultantWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Department.cs" />
     <Compile Include="TreeJsonChanges.cs" />
-    <Compile Include="TreeJsonClient.cs" />
+    <Compile Include="TreeJsonDepartments.cs" />
     <Page Include="ConsultantWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -91,11 +96,8 @@
     <Compile Include="Change.cs" />
     <Compile Include="ChangesRepository.cs" />
     <Compile Include="Client.cs" />
-    <Compile Include="ClientsRepository.cs" />
+    <Compile Include="DepartmentsRepository.cs" />
     <Compile Include="Consultant.cs" />
-    <Compile Include="ConsultantWindow.xaml.cs">
-      <DependentUpon>ConsultantWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Employee.cs" />
     <Compile Include="ICheckMethods.cs" />
     <Compile Include="IConcultant.cs" />

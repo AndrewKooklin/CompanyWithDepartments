@@ -26,7 +26,7 @@ namespace CompanyWithDepartments
                     }
                 case DataChange.AddNewClient:
                     {
-                        this.Type = "Добавление клиента";
+                        this.Type = "Добавление сотрудника";
                         break;
                     }
                 default:

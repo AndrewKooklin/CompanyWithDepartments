@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace CompanyWithDepartments
 {
@@ -7,10 +8,10 @@ namespace CompanyWithDepartments
         /// <summary>
         /// Получение списка клиентов из файла
         /// </summary>
-        ObservableCollection<Client> GetClietsItemSourse(Employee.Position position);
+        List<Department> GetDepartmentsItemSourse(Employee.Position position);
         /// <summary>
-        /// Получение списка записей из файла
+        /// Получение списка записей изменений из файла
         /// </summary>
-        ObservableCollection<Change> GetChangesItemSourse();
+        List<Change> GetChangesItemSourse();
     }
 }

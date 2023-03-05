@@ -1,0 +1,21 @@
+<StackPanel Grid.Row="5" 
+                    Grid.Column="0" 
+                    Margin="179,46.8,5.2,5.4"
+                    Orientation="Horizontal">
+            <Button x:Name="SaveToListObjects" 
+                    Content="Изменить" 
+                    Margin="0,5,10,5"
+                    Style="{StaticResource ButtonStyle}"
+                    Click="OnClickChange"/>
+            <Button x:Name="AddClient" 
+                    Content="Добавить клиента" 
+                    Margin="10,5,10,5" 
+                    Style="{StaticResource ButtonStyle}"
+                    Click="OnClickAddClient"/>
+            <Button x:Name="SaveToFile" 
+                    Content="Сохранить в файл"
+                    Margin="10,5,10,5" 
+                    Style="{StaticResource ButtonStyle}" 
+                    Click="OnClickSaveToFiles"/>
+
+        </StackPanel>
