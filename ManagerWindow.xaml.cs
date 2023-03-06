@@ -222,8 +222,6 @@ namespace CompanyWithDepartments
             var selectedItem = (Department)cbDepartment.SelectedItem;
             string value = selectedItem.NameDepartment;
 
-            
-
             newDepartment = departmentRepository.Departments.Single(p => p.NameDepartment.Equals(value));
 
             if (newManager.CheckTextBoxIsNullOrEmpty(firstName.Text, "Имя")) return;
@@ -246,8 +244,6 @@ namespace CompanyWithDepartments
             {
                 return;
             }
-
-
 
             var newClient = newManager.AddClient(firstName.Text.Trim(),
                            lastName.Text.Trim(), fathersName.Text.Trim(),
@@ -273,6 +269,51 @@ namespace CompanyWithDepartments
 
             clientItems.ItemsSource = newDepartment.Clients;
             recordItems.ItemsSource = changesRepository.ChangesList;
+        }
+
+        /// <summary>
+        /// Действия при нажатии кнопки "Удалить клиента"
+        /// </summary>
+        private void OnClickDeleteClient(object sender, RoutedEventArgs e)
+        {
+            if (cbDepartment.SelectedItem == null)
+            {
+                MessageBox.Show("Выберите департамент",
+                                 "Ошибка",
+                                 MessageBoxButton.OK,
+                                 MessageBoxImage.Error);
+                return;
+            }
+
+            if (clientItems.SelectedItem == null)
+            {
+                MessageBox.Show("Выберите клиента",
+                                "Ошибка",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Error);
+                return;
+            }
+            else if (clientItems.SelectedItem != null)
+            {
+                var indexDepartment = cbDepartment.SelectedIndex;
+                var indexClient = clientItems.SelectedIndex;
+
+                departmentRepository.Departments[indexDepartment].Clients.RemoveAt(indexClient);
+
+                clientItems.ItemsSource = null;
+                recordItems.ItemsSource = null;
+
+                var fieldsAdded = CheckFieldsAdded();
+                var newRecordDeleteClient = newManager.NewRecord(fieldsAdded,
+                                                              Change.DataChange.DeleteClient,
+                                                              position);
+                changesRepository.ChangesList.Add(newRecordDeleteClient);
+
+                clientItems.ItemsSource = departmentRepository.Departments[indexDepartment].Clients;
+                recordItems.ItemsSource = changesRepository.ChangesList;
+                clientItems.Items.Refresh();
+                recordItems.Items.Refresh();
+            }
         }
 
         /// <summary>
@@ -504,5 +545,7 @@ namespace CompanyWithDepartments
             }
             
         }
+
+        
     }
 }

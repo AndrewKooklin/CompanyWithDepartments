@@ -26,7 +26,12 @@ namespace CompanyWithDepartments
                     }
                 case DataChange.AddNewClient:
                     {
-                        this.Type = "Добавление сотрудника";
+                        this.Type = "Добавление клиента";
+                        break;
+                    }
+                case DataChange.DeleteClient:
+                    {
+                        this.Type = "Удаление клиента";
                         break;
                     }
                 default:
@@ -68,7 +73,8 @@ namespace CompanyWithDepartments
         public enum DataChange
         {
             ChangingRecord,
-            AddNewClient
+            AddNewClient,
+            DeleteClient
         }
 
         [JsonProperty]

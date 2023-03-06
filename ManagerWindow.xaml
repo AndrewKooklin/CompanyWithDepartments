@@ -75,6 +75,48 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="ButtonStyleTableHead" TargetType="{x:Type Button}">
+            <Setter Property="Control.BorderThickness" Value="1 1 1 1"/>
+            <Setter Property="Control.BorderBrush" Value="#FF0C097A" />
+            <Setter Property="Control.Background" Value="#FFC8D8FF" />
+            <Setter Property="Control.Foreground" Value="#FF0F10A0" />
+            <Setter Property="Control.Height" Value="40" />
+            <Setter Property="Control.FontFamily" Value="Verdana" />
+            <Setter Property="Control.FontSize" Value="12" />
+            <Setter Property="Control.FontWeight" Value="Medium" />
+            <Setter Property="Control.HorizontalContentAlignment" Value="Center" />
+            <Setter Property="Control.VerticalContentAlignment" Value="Center" />
+            <Setter Property="Control.Cursor" Value="Hand" />
+
+
+
+            <Style.Triggers>
+                <Trigger Property="IsDefault" Value="True">
+                    <Setter Property="Control.BorderBrush" Value="#FF007ACC" />
+                    <Setter Property="Control.Background" Value="#ff96b4"/>
+                    <Setter Property="Control.Foreground" Value="#FF0F10A0" />
+                </Trigger>
+
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Control.BorderBrush" Value="#FF007ACC" />
+                    <Setter Property="Control.Background" Value="#ff96b4"/>
+                    <Setter Property="Control.Foreground" Value="#FF0F10A0" />
+                </Trigger>
+
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="BorderBrush" Value="#FF007ACC" />
+                    <Setter Property="Background" Value="#3773ed" />
+                    <Setter Property="Foreground" Value="#010982" />
+                </Trigger>
+
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="BorderBrush" Value="#FF007ACC" />
+                    <Setter Property="Background" Value="#3773ed" />
+                    <Setter Property="Foreground" Value="#010982" />
+                </Trigger>
+
+            </Style.Triggers>
+        </Style>
         <Style x:Key="ComboBoxStyle">
             <Setter Property="Control.FontSize" Value="14" />
             <Setter Property="Control.Foreground" Value="#FF2030E0" />
@@ -150,21 +192,26 @@
                     Grid.Column="0" 
                     Orientation="Horizontal" 
                     Margin="10,10,0.2,0.2">
-            <Label  Content="Фамилия" 
+            <Button  Content="Фамилия" 
                         Width="111"
-                        Style="{StaticResource LabelStyle}"/>
-            <Label  Content="Имя" 
-                        Width="111" 
-                        Style="{StaticResource LabelStyle}"/>
-            <Label  Content="Отчество" 
-                        Width="112" 
-                        Style="{StaticResource LabelStyle}"/>
-            <Label  Content="Телефон" 
-                        Width="109" 
-                        Style="{StaticResource LabelStyle}"/>
-            <Label  Content="Паспорт" 
-                        Width="123"
-                        Style="{StaticResource LabelStyle}"/>
+                        Margin="0 0 0 0"
+                        Style="{StaticResource ButtonStyleTableHead}"/>
+            <Button  Content="Имя" 
+                        Width="109"
+                        Margin="3 0 0 0"
+                        Style="{StaticResource ButtonStyleTableHead}"/>
+            <Button  Content="Отчество" 
+                        Width="109"
+                        Margin="3 0 0 0"
+                        Style="{StaticResource ButtonStyleTableHead}"/>
+            <Button  Content="Телефон" 
+                        Width="106"
+                        Margin="3 0 0 0"
+                        Style="{StaticResource ButtonStyleTableHead}"/>
+            <Button  Content="Паспорт" 
+                        Width="120"
+                        Margin="3 0 0 0"
+                        Style="{StaticResource ButtonStyleTableHead}"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1" 
@@ -213,22 +260,27 @@
                                     <TextBlock x:Name="LastName" 
                                                Text="{Binding LastName}"
                                                Width="111"
+                                               Margin="0 0 0 0"
                                                Style="{StaticResource TextBlockStyle}"/>
                                     <TextBlock x:Name="FirstName" 
                                                Text="{Binding FirstName}"
-                                               Width="111"
+                                               Width="109"
+                                               Margin="3 0 0 0"
                                                Style="{StaticResource TextBlockStyle}"/>
                                     <TextBlock x:Name="FathersName" 
                                                Text="{Binding FathersName}"
-                                               Width="112"
+                                               Width="109"
+                                               Margin="3 0 0 0"
                                                Style="{StaticResource TextBlockStyle}"/>
                                     <TextBlock x:Name="Phone" 
                                                Text="{Binding Phone}"
-                                               Width="109"
+                                               Width="106"
+                                               Margin="3 0 0 0"
                                                Style="{StaticResource TextBlockStyle}"/>
                                     <TextBlock x:Name="PassportNumber" 
                                                Text="{Binding PassportNumber}"
-                                               Width="108"
+                                               Width="105"
+                                               Margin="3 0 0 0"
                                                Style="{StaticResource TextBlockStyle}"/>
                                 </StackPanel>
                             </Border>
@@ -335,21 +387,26 @@
 
         <StackPanel Grid.Row="5" 
                     Grid.Column="0" 
-                    Margin="156,46.8,5.2,5.4"
+                    Margin="20,46.8,5.2,5.4"
                     Orientation="Horizontal">
             <Button x:Name="SaveToListObjects" 
                     Content="Изменить" 
-                    Margin="0,5,10,5"
+                    Margin="5"
                     Style="{StaticResource ButtonStyle}"
                     Click="OnClickChange"/>
             <Button x:Name="AddClient" 
                     Content="Добавить клиента" 
-                    Margin="10,5,10,5" 
+                    Margin="5" 
                     Style="{StaticResource ButtonStyle}"
                     Click="OnClickAddClient"/>
+            <Button x:Name="DeleteClient" 
+                    Content="Удалить клиента" 
+                    Margin="5" 
+                    Style="{StaticResource ButtonStyle}"
+                    Click="OnClickDeleteClient"/>
             <Button x:Name="SaveToFile" 
                     Content="Сохранить в файл"
-                    Margin="10,5,10,5" 
+                    Margin="5" 
                     Style="{StaticResource ButtonStyle}" 
                     Click="OnClickSaveToFiles"/>
         </StackPanel>
