@@ -75,8 +75,17 @@ namespace CompanyWithDepartments
             string value = selectedItem.NameDepartment;
 
             newDepartment = departmentRepository.Departments.Single(p => p.NameDepartment.Equals(value));
+            var clientsList = newDepartment.Clients;
 
-            clientItems.ItemsSource = newDepartment.Clients;
+            var newClientsCopy = newConsultant.GetClientsCopy(clientsList, position);
+
+            if (newClientsCopy == null || newClientsCopy.Count <= 0)
+            {
+                MessageBox.Show("Список клиентов пустой", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            clientItems.ItemsSource = newClientsCopy;
         }
 
         /// <summary>
@@ -182,7 +191,14 @@ namespace CompanyWithDepartments
 
                 client.Phone = phoneNumber;
 
-                clientItems.ItemsSource = departmentRepository.Departments[indexDepartment].Clients;
+                var selectedItem = (Department)cbDepartment.SelectedItem;
+                string value = selectedItem.NameDepartment;
+
+                newDepartment = departmentRepository.Departments.Single(p => p.NameDepartment.Equals(value));
+
+                var newClientsCopy = newConsultant.GetClientsCopy(clientsList, position);
+
+                clientItems.ItemsSource = newClientsCopy;
                 recordItems.ItemsSource = changesRepository.ChangesList;
                 clientItems.Items.Refresh();
                 recordItems.Items.Refresh();
@@ -193,9 +209,6 @@ namespace CompanyWithDepartments
         /// <summary>
         /// Сравнение телефона выбранного клиента и поля TextBox Phone.Text
         /// </summary>
-        /// <returns>
-        /// Название поля
-        /// </returns>
         public string CheckFieldPhoneChanged(Client client)
         {
             string totalString;
@@ -256,6 +269,63 @@ namespace CompanyWithDepartments
         private void OnClickExit(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        /// <summary>
+        /// Сортировка по заголовкам таблицы клиентов
+        /// </summary>
+        private void SortByParameter(object sender, RoutedEventArgs e)
+        {
+            if (cbDepartment.SelectedItem == null)
+            {
+                MessageBox.Show("Выберите департамент",
+                                 "Ошибка",
+                                 MessageBoxButton.OK,
+                                 MessageBoxImage.Error);
+                return;
+            }
+
+            var indexDepartment = cbDepartment.SelectedIndex;
+            var clients = departmentRepository.Departments[indexDepartment].Clients;
+
+            var name = ((Button)sender).Name;
+
+            switch (name)
+            {
+                case "LastName":
+                    {
+                        IComparer<Client> comparer = new Client.SortByLastName();
+                        clients.Sort(comparer);
+                        break;
+                    }
+                case "FirstName":
+                    {
+                        IComparer<Client> comparer = new Client.SortByFirstName();
+                        clients.Sort(comparer);
+                        break;
+                    }
+                case "Phone":
+                    {
+                        IComparer<Client> comparer = new Client.SortByPhone();
+                        clients.Sort(comparer);
+                        break;
+                    }
+                default:
+                    {
+                        MessageBox.Show("Неустановленное сравнение",
+                                 "Ошибка",
+                                 MessageBoxButton.OK,
+                                 MessageBoxImage.Error);
+                        break;
+                    }
+            }
+
+            //var newClients = clients.OrderBy(p => p.LastName).ToList();
+
+            var newClientsCopy = newConsultant.GetClientsCopy(clients, position);
+
+            clientItems.ItemsSource = newClientsCopy;
+            clientItems.Items.Refresh();
         }
     }
 }

@@ -546,6 +546,65 @@ namespace CompanyWithDepartments
             
         }
 
-        
+        /// <summary>
+        /// Сортировка по заголовкам таблицы клиентов
+        /// </summary>
+        private void SortByParameter(object sender, RoutedEventArgs e)
+        {
+            if (cbDepartment.SelectedItem == null)
+            {
+                MessageBox.Show("Выберите департамент",
+                                 "Ошибка",
+                                 MessageBoxButton.OK,
+                                 MessageBoxImage.Error);
+                return;
+            }
+
+            var indexDepartment = cbDepartment.SelectedIndex;
+            var clients = departmentRepository.Departments[indexDepartment].Clients;
+
+            var name = ((Button)sender).Name;
+
+            switch (name)
+            {
+                case "LastName":
+                    {
+                        IComparer<Client> comparer = new Client.SortByLastName();
+                        clients.Sort(comparer);
+                        break;
+                    }
+                case "FirstName":
+                    {
+                        IComparer<Client> comparer = new Client.SortByFirstName();
+                        clients.Sort(comparer);
+                        break;
+                    }
+                case "Phone":
+                    {
+                        IComparer<Client> comparer = new Client.SortByPhone();
+                        clients.Sort(comparer);
+                        break;
+                    }
+                case "PassportNumber":
+                    {
+                        IComparer<Client> comparer = new Client.SortByPassportNumber();
+                        clients.Sort(comparer);
+                        break;
+                    }
+                default:
+                    {
+                        MessageBox.Show("Неустановленное сравнение",
+                                 "Ошибка",
+                                 MessageBoxButton.OK,
+                                 MessageBoxImage.Error);
+                        break;
+                    }
+            }
+
+            //var newClients = clients.OrderBy(p => p.LastName).ToList();
+            
+            clientItems.ItemsSource = clients;
+            clientItems.Items.Refresh();
+        }
     }
 }

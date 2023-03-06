@@ -79,6 +79,7 @@
       <DependentUpon>ConsultantWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Department.cs" />
+    <Compile Include="IConsultant.cs" />
     <Compile Include="TreeJsonChanges.cs" />
     <Compile Include="TreeJsonDepartments.cs" />
     <Page Include="ConsultantWindow.xaml">
@@ -100,7 +101,6 @@
     <Compile Include="Consultant.cs" />
     <Compile Include="Employee.cs" />
     <Compile Include="ICheckMethods.cs" />
-    <Compile Include="IConcultant.cs" />
     <Compile Include="IGetRecordsFromBase.cs" />
     <Compile Include="IManager.cs" />
     <Compile Include="IWorkWithFiles.cs" />

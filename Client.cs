@@ -9,7 +9,7 @@ namespace CompanyWithDepartments
 {
     [Serializable]
     [JsonObject]
-    public class Client
+    public class Client : ICloneable
     {
         [NonSerialized]
         private string passportNumber;
@@ -60,6 +60,21 @@ namespace CompanyWithDepartments
             return passport;
         }
 
+        /// <summary>
+        /// Создание копии объекта "Client"
+        /// </summary>
+        public object Clone()
+        {
+            return new Client
+            {
+                LastName = this.LastName,
+                FirstName = this.FirstName,
+                FathersName = this.FathersName,
+                Phone = this.Phone,
+                PassportNumber = this.PassportNumber
+            };
+        }
+
         [JsonConstructor]
         public Client(string firstName, string lastName,
                         string fathersName, long phone,
@@ -75,6 +90,62 @@ namespace CompanyWithDepartments
         public Client()
         {
 
+        }
+
+        /// <summary>
+        /// Сортировка по фамилии и имени
+        /// </summary>
+        public class SortByLastName : IComparer<Client>
+        {
+            public int Compare(Client x, Client y)
+            {
+                int compareLastName = x.LastName.CompareTo(y.LastName);
+                if (compareLastName == 0)
+                {
+                    return x.FirstName.CompareTo(y.FirstName);
+                }
+                return compareLastName;
+            }
+        }
+
+        /// <summary>
+        /// Сортировка по имени и отчеству
+        /// </summary>
+        public class SortByFirstName : IComparer<Client>
+        {
+            public int Compare(Client x, Client y)
+            {
+                int compareFirstName = x.FirstName.CompareTo(y.FirstName);
+                if (compareFirstName == 0)
+                {
+                    return x.FathersName.CompareTo(y.FathersName);
+                }
+                return compareFirstName;
+            }
+        }
+
+        /// <summary>
+        /// Сортировка по номеру телефона
+        /// </summary>
+        public class SortByPhone : IComparer<Client>
+        {
+            public int Compare(Client x, Client y)
+            {
+                int comparePhoneNumber = x.Phone.CompareTo(y.Phone);
+                return comparePhoneNumber;
+            }
+        }
+
+        /// <summary>
+        /// Сортировка по номеру номеру паспорта
+        /// </summary>
+        public class SortByPassportNumber : IComparer<Client>
+        {
+            public int Compare(Client x, Client y)
+            {
+                int comparePassportNumber = x.PassportNumber.CompareTo(y.PassportNumber);
+                return comparePassportNumber;
+            }
         }
     }
 }

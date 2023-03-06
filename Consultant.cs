@@ -13,11 +13,28 @@ using System.Windows;
 
 namespace CompanyWithDepartments
 {
-    public class Consultant : Employee
+    public class Consultant : Employee, IConsultant
     {
         public Consultant()
         {
 
+        }
+
+        public List<Client> GetClientsCopy(List<Client> clients, Employee.Position position)
+        {
+            List<Client> newClientsCopy = new List<Client>();
+
+            foreach (var item in clients)
+            {
+                newClientsCopy.Add((Client)item.Clone());
+            }
+
+            foreach (var item in newClientsCopy)
+            {
+                item.PassportNumber = item.GetPassportNumber(position);
+            }
+
+            return newClientsCopy;
         }
     }
 }

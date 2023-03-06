@@ -47,10 +47,10 @@ namespace CompanyWithDepartments
         {
             var departmentsRepository = new List<Department>();
 
-            string textFromFileClients = ReadFromFile(fileNameDepartments);
-            if (!String.IsNullOrEmpty(textFromFileClients))
+            string textFromFileDepartments = ReadFromFile(fileNameDepartments);
+            if (!String.IsNullOrEmpty(textFromFileDepartments))
             {
-                departmentsRepository = ParseJsonDepartments(textFromFileClients, position);
+                departmentsRepository = ParseJsonDepartments(textFromFileDepartments, position);
                 if (departmentsRepository != null)
                 {
                     return departmentsRepository;
@@ -145,7 +145,7 @@ namespace CompanyWithDepartments
         }
 
         /// <summary>
-        /// Приведение json строки к объектам "Клиент"
+        /// Приведение json строки к списку объектов "Департамент"
         /// </summary>
         public List<Department> ParseJsonDepartments(string root, Position position)
         {

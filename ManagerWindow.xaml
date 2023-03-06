@@ -88,8 +88,6 @@
             <Setter Property="Control.VerticalContentAlignment" Value="Center" />
             <Setter Property="Control.Cursor" Value="Hand" />
 
-
-
             <Style.Triggers>
                 <Trigger Property="IsDefault" Value="True">
                     <Setter Property="Control.BorderBrush" Value="#FF007ACC" />
@@ -192,26 +190,34 @@
                     Grid.Column="0" 
                     Orientation="Horizontal" 
                     Margin="10,10,0.2,0.2">
-            <Button  Content="Фамилия" 
+            <Button  x:Name="LastName"
+                        Content="Фамилия" 
                         Width="111"
-                        Margin="0 0 0 0"
-                        Style="{StaticResource ButtonStyleTableHead}"/>
-            <Button  Content="Имя" 
+                        Margin="0"
+                        Style="{StaticResource ButtonStyleTableHead}"
+                        Click="SortByParameter"/>
+            <Button  x:Name="FirstName"
+                        Content="Имя" 
                         Width="109"
                         Margin="3 0 0 0"
-                        Style="{StaticResource ButtonStyleTableHead}"/>
+                        Style="{StaticResource ButtonStyleTableHead}"
+                        Click="SortByParameter"/>
             <Button  Content="Отчество" 
                         Width="109"
                         Margin="3 0 0 0"
                         Style="{StaticResource ButtonStyleTableHead}"/>
-            <Button  Content="Телефон" 
+            <Button  x:Name="Phone"
+                        Content="Телефон" 
                         Width="106"
                         Margin="3 0 0 0"
-                        Style="{StaticResource ButtonStyleTableHead}"/>
-            <Button  Content="Паспорт" 
+                        Style="{StaticResource ButtonStyleTableHead}"
+                        Click="SortByParameter"/>
+            <Button  x:Name="PassportNumber"
+                        Content="Паспорт" 
                         Width="120"
                         Margin="3 0 0 0"
-                        Style="{StaticResource ButtonStyleTableHead}"/>
+                        Style="{StaticResource ButtonStyleTableHead}"
+                        Click="SortByParameter"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1" 
@@ -352,7 +358,7 @@
             Width="389"
             FontFamily="Verdana"
             FontSize="14"/>
-        
+
         <StackPanel x:Name="TextBoxList" 
                     Grid.Row="4" 
                     Grid.Column="0" 
@@ -421,7 +427,7 @@
                     Style="{StaticResource ButtonStyle}"
                     Click="OnClickExit"/>
         </StackPanel>
-        
+
 
     </Grid>
 </Window>
